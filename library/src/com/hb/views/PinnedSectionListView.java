@@ -21,6 +21,7 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
@@ -33,6 +34,7 @@ import com.hb.views.pinnedsection.BuildConfig;
  * ListView capable to pin views at its top while the rest is still scrolled.
  */
 public class PinnedSectionListView extends ListView {
+    private static final String TAG = "PinnedSectionListView";
 
     //-- inner classes
 
@@ -93,7 +95,7 @@ public class PinnedSectionListView extends ListView {
 
 			int visibleSectionPosition = findFirstVisibleSectionPosition(firstVisibleItem, visibleItemCount);
 			if (visibleSectionPosition == -1) { // there is no visible sections
-
+                Log.d(TAG, "the example could not reach here");
 				// try to find invisible view
 				int currentSectionPosition = findCurrentSectionPosition(firstVisibleItem);
 				if (currentSectionPosition == -1) return; // exit here, we have no sections
@@ -116,6 +118,10 @@ public class PinnedSectionListView extends ListView {
 			}
 
 			int visibleSectionTop = view.getChildAt(visibleSectionPosition - firstVisibleItem).getTop();
+            Log.d(TAG, "visibleSectionTop:" + visibleSectionTop);
+//            if (visibleSectionTop <= 0) {
+//                view.getChildAt(firstVisibleItem).setVisibility(View.INVISIBLE);
+//            }
 			int topBorder = getListPaddingTop();
 
 			if (mPinnedShadow == null) {
@@ -127,6 +133,7 @@ public class PinnedSectionListView extends ListView {
 
 				if (visibleSectionPosition == mPinnedShadow.position) {
 					if (visibleSectionTop > topBorder) {
+                        Log.d(TAG, "I assume the example could not reach here, visibleSectionTop:" + visibleSectionTop);
 						destroyPinnedShadow();
 						visibleSectionPosition = findCurrentSectionPosition(visibleSectionPosition - 1);
 						if (visibleSectionPosition > -1) {
@@ -138,7 +145,6 @@ public class PinnedSectionListView extends ListView {
 					}
 
 				} else {
-
 					int pinnedSectionBottom = topBorder + mPinnedShadow.view.getHeight();
 					if (visibleSectionTop < pinnedSectionBottom) {
 						if (visibleSectionTop < topBorder) {
@@ -146,6 +152,7 @@ public class PinnedSectionListView extends ListView {
 							createPinnedShadow(visibleSectionPosition);
 						} else {
 							mTranslateY = visibleSectionTop - pinnedSectionBottom;
+                            Log.d(TAG, "mTranslateY:" + mTranslateY);
 						}
 					} else {
 						mTranslateY = 0;
@@ -227,7 +234,9 @@ public class PinnedSectionListView extends ListView {
 		for (int childIndex = 0; childIndex < visibleItemCount; childIndex++) {
 			int position = firstVisibleItem + childIndex;
 			int viewType = adapter.getItemViewType(position);
-			if (adapter.isItemViewTypePinned(viewType)) return position;
+			if (adapter.isItemViewTypePinned(viewType)) {
+                return position;
+            }
 		}
 		return -1;
 	}

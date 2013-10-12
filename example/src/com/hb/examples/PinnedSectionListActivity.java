@@ -48,7 +48,7 @@ public class PinnedSectionListActivity extends ListActivity {
 			TextView view = (TextView) super.getView(position, convertView, parent);
 			view.setTextColor(Color.DKGRAY);
 			if (getItem(position).type == Item.SECTION) {
-				view.setBackgroundColor(parent.getResources().getColor(COLORS[position % COLORS.length]));
+//				view.setBackgroundColor(parent.getResources().getColor(COLORS[position % COLORS.length]));
 			}
 			return view;
 		}

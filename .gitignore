@@ -3,3 +3,8 @@ gen
 .project
 .classpath
 .DS_Store
+.idea/
+settings.gradle
+out
+example/example.iml
+library/library.iml
